@@ -14,10 +14,14 @@ public class ChessMatch {
         this.initialSetup();
     }
 
+    private void planeNewPiece(char column, int row, ChessPiece piece) {
+        board.placePiece(piece, new ChessPosition(column, row).toPosition());
+    }
+
     private void initialSetup() {
-        board.placePiece(new Rook(this.board, Color.WHITE), new Position(2, 1));
-        board.placePiece(new King(this.board, Color.BLACK), new Position(0, 4));
-        board.placePiece(new King(this.board, Color.WHITE), new Position(7, 4));
+        this.planeNewPiece('b', 6, new Rook(this.board, Color.WHITE));
+        this.planeNewPiece('e', 8, new King(this.board, Color.WHITE));
+        this.planeNewPiece('e', 1, new King(this.board, Color.BLACK));
     }
 
     public ChessPiece[][] getPieces() {
