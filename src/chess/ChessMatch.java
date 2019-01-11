@@ -19,9 +19,19 @@ public class ChessMatch {
     }
 
     private void initialSetup() {
-        this.planeNewPiece('b', 6, new Rook(this.board, Color.WHITE));
-        this.planeNewPiece('e', 8, new King(this.board, Color.WHITE));
-        this.planeNewPiece('e', 1, new King(this.board, Color.BLACK));
+        this.planeNewPiece('c', 1, new Rook(this.board, Color.RED));
+        this.planeNewPiece('c', 2, new Rook(this.board, Color.RED));
+        this.planeNewPiece('d', 2, new Rook(this.board, Color.RED));
+        this.planeNewPiece('e', 2, new Rook(this.board, Color.RED));
+        this.planeNewPiece('e', 1, new Rook(this.board, Color.RED));
+        this.planeNewPiece('d', 1, new King(this.board, Color.RED));
+
+        this.planeNewPiece('c', 7, new Rook(this.board, Color.BLUE));
+        this.planeNewPiece('c', 8, new Rook(this.board, Color.BLUE));
+        this.planeNewPiece('d', 7, new Rook(this.board, Color.BLUE));
+        this.planeNewPiece('e', 7, new Rook(this.board, Color.BLUE));
+        this.planeNewPiece('e', 8, new Rook(this.board, Color.BLUE));
+        this.planeNewPiece('d', 8, new King(this.board, Color.BLUE));
     }
 
     public ChessPiece[][] getPieces() {
