@@ -8,10 +8,14 @@ import chess.pieces.Rook;
 
 public class ChessMatch {
 
+    private int turn;
+    private Color currentPlayer;
     private Board board;
 
     public ChessMatch() {
         this.board = new Board(8, 8);
+        this.turn = 1;
+        this.currentPlayer = Color.RED;
         this.initialSetup();
     }
 
@@ -23,6 +27,7 @@ public class ChessMatch {
         this.validateSourcePosition(source);
         this.validateTargetPosition(source, target);
 
+        this.nextTurn();
         Piece capturedPiece = this.makeMove(source, target);
         return (ChessPiece) capturedPiece;
     }
@@ -30,6 +35,9 @@ public class ChessMatch {
     private void validateSourcePosition(Position position) {
         if (!board.thereIsAPiece(position))
             throw new ChessException("There is no piece on source position");
+
+        if (currentPlayer != ((ChessPiece) board.piece(position)).getColor())
+            throw new ChessException("The chosen piece is not yours");
 
         if (!board.piece(position).isThereAnyPossibleMove())
             throw new ChessException("There is no possible moves for the chosen piece");
@@ -59,6 +67,11 @@ public class ChessMatch {
         board.placePiece(piece, new ChessPosition(column, row).toPosition());
     }
 
+    private void nextTurn() {
+        this.turn++;
+        this.currentPlayer = (currentPlayer == Color.RED) ? Color.BLUE : Color.RED;
+    }
+
     private void initialSetup() {
         this.planeNewPiece('c', 1, new Rook(this.board, Color.RED));
         this.planeNewPiece('c', 2, new Rook(this.board, Color.RED));
@@ -73,6 +86,14 @@ public class ChessMatch {
         this.planeNewPiece('e', 7, new Rook(this.board, Color.BLUE));
         this.planeNewPiece('e', 8, new Rook(this.board, Color.BLUE));
         this.planeNewPiece('d', 8, new King(this.board, Color.BLUE));
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public Color getCurrentPlayer() {
+        return currentPlayer;
     }
 
     public ChessPiece[][] getPieces() {
