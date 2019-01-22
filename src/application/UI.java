@@ -5,8 +5,12 @@ import chess.ChessPiece;
 import chess.ChessPosition;
 import chess.Color;
 
+import javax.sound.midi.Soundbank;
+import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class UI {
 
@@ -31,12 +35,24 @@ public class UI {
     public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
-    public static void printMatch(ChessMatch chessMatch) {
+    public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) {
 
         printBoard(chessMatch.getPieces());
         System.out.println();
+        printCapturedPieces(captured);
+        System.out.println();
         System.out.println("Turn: " + chessMatch.getTurn());
-        System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
+
+        System.out.print("Waiting player: " );
+
+        if (chessMatch.getCurrentPlayer() == Color.RED)
+            System.out.print(ANSI_RED);
+        else
+            System.out.print(ANSI_BLUE);
+
+        System.out.println(chessMatch.getCurrentPlayer());
+
+        System.out.print(ANSI_RESET);
     }
 
     public static void printBoard(ChessPiece[][] pieces) {
@@ -103,5 +119,24 @@ public class UI {
         } catch (RuntimeException e) {
             throw new InputMismatchException("Error reading ChessPosition. Valid value are from a1 to h8");
         }
+    }
+
+    private static void printCapturedPieces(List<ChessPiece> captured) {
+        List<ChessPiece> red = captured.stream().filter(x -> x.getColor() == Color.RED).collect(Collectors.toList());
+        List<ChessPiece> blue = captured.stream().filter(x -> x.getColor() == Color.BLUE).collect(Collectors.toList());
+
+        System.out.println("Captured pieces: ");
+
+        System.out.print("Red: ");
+        System.out.print(ANSI_RED);
+        System.out.println(Arrays.toString(red.toArray()));
+
+        System.out.print(ANSI_RESET);
+
+        System.out.print("Blue: ");
+        System.out.print(ANSI_BLUE);
+        System.out.println(Arrays.toString(blue.toArray()));
+
+        System.out.print(ANSI_RESET);
     }
 }
