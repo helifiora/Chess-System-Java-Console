@@ -8,10 +8,12 @@ import chess.pieces.Rook;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ChessMatch {
 
     private int turn;
+    private boolean check;
     private Color currentPlayer;
     private Board board;
 
@@ -35,8 +37,15 @@ public class ChessMatch {
         this.validateSourcePosition(source);
         this.validateTargetPosition(source, target);
 
-        this.nextTurn();
         Piece capturedPiece = this.makeMove(source, target);
+        if (testCheck(currentPlayer)) {
+            this.undoMove(source, target, capturedPiece);
+            throw new ChessException("You can't put yourself in check");
+        }
+
+        check = testCheck(opponent(currentPlayer));
+
+        this.nextTurn();
         return (ChessPiece) capturedPiece;
     }
 
@@ -74,6 +83,49 @@ public class ChessMatch {
             this.capturedPieces.add(capturedPiece);
         }
         return capturedPiece;
+    }
+
+    private void undoMove(Position source, Position target, Piece capturedPiece) {
+
+        Piece p = board.removePiece(target);
+        this.board.placePiece(p, source);
+
+        if (capturedPiece != null) {
+            this.board.placePiece(capturedPiece, target);
+            this.capturedPieces.remove(capturedPiece);
+            this.piecesOnTheBoard.add(capturedPiece);
+        }
+    }
+
+    private Color opponent(Color color) {
+
+        return (color == Color.RED) ? Color.BLUE : Color.RED;
+    }
+
+    private ChessPiece king(Color color) {
+
+        List<Piece> list = this.piecesOnTheBoard.stream().filter(x -> ((ChessPiece) x).getColor() == color).collect(Collectors.toList());
+        for (Piece p : list) {
+            if (p instanceof King) {
+                return (ChessPiece) p;
+            }
+        }
+        throw new IllegalStateException("There is no " + color + " king on the board");
+    }
+
+    private boolean testCheck(Color color) {
+
+        Position kingPosition = this.king(color).getChessPosition().toPosition();
+        List<Piece> opponentPieces = this.piecesOnTheBoard.stream().filter(x -> ((ChessPiece) x).getColor() == this.opponent(color)).collect(Collectors.toList());
+
+        for (Piece p : opponentPieces) {
+
+            boolean[][] matrix = p.possibleMoves();
+            if (matrix[kingPosition.getRow()][kingPosition.getColumn()])
+                return true;
+        }
+
+        return false;
     }
 
     private void planeNewPiece(char column, int row, ChessPiece piece) {
@@ -118,5 +170,9 @@ public class ChessMatch {
                 matriz[i][j] = (ChessPiece) this.board.piece(i, j);
 
         return matriz;
+    }
+
+    public boolean getCheck() {
+        return this.check;
     }
 }
