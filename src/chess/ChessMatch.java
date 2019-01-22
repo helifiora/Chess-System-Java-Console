@@ -14,6 +14,7 @@ public class ChessMatch {
 
     private int turn;
     private boolean check;
+    private boolean checkMate;
     private Color currentPlayer;
     private Board board;
 
@@ -45,7 +46,11 @@ public class ChessMatch {
 
         check = testCheck(opponent(currentPlayer));
 
-        this.nextTurn();
+        if (testCheckMate(opponent(currentPlayer)))
+            checkMate = true;
+        else
+            this.nextTurn();
+
         return (ChessPiece) capturedPiece;
     }
 
@@ -128,6 +133,31 @@ public class ChessMatch {
         return false;
     }
 
+    private boolean testCheckMate(Color color) {
+        if (!testCheck(color))
+            return false;
+
+        List<Piece> list = this.piecesOnTheBoard.stream().filter(x -> ((ChessPiece) x).getColor() == color).collect(Collectors.toList());
+        for (Piece p : list) {
+
+            boolean[][] matrix = p.possibleMoves();
+            for (int i = 0; i < board.getRows(); i++)
+                for (int j = 0; j < board.getColumns(); j++)
+                    if (matrix[i][j]) {
+                        Position source = ((ChessPiece) p).getChessPosition().toPosition();
+                        Position target = new Position(i, j);
+                        Piece capturedPiece = makeMove(source, target);
+                        boolean tCheck = testCheck(color);
+                        undoMove(source, target, capturedPiece);
+                        if (!tCheck)
+                            return false;
+
+                    }
+        }
+
+        return true;
+    }
+
     private void planeNewPiece(char column, int row, ChessPiece piece) {
         board.placePiece(piece, new ChessPosition(column, row).toPosition());
         this.piecesOnTheBoard.add(piece);
@@ -139,6 +169,7 @@ public class ChessMatch {
     }
 
     private void initialSetup() {
+        /*
         this.planeNewPiece('c', 1, new Rook(this.board, Color.RED));
         this.planeNewPiece('c', 2, new Rook(this.board, Color.RED));
         this.planeNewPiece('d', 2, new Rook(this.board, Color.RED));
@@ -152,6 +183,13 @@ public class ChessMatch {
         this.planeNewPiece('e', 7, new Rook(this.board, Color.BLUE));
         this.planeNewPiece('e', 8, new Rook(this.board, Color.BLUE));
         this.planeNewPiece('d', 8, new King(this.board, Color.BLUE));
+        */
+        planeNewPiece('h', 7, new Rook(board, Color.RED));
+        planeNewPiece('d', 1, new Rook(board, Color.RED));
+        planeNewPiece('e', 1, new King(board, Color.RED));
+
+        planeNewPiece('b', 8, new Rook(board, Color.BLUE));
+        planeNewPiece('a', 8, new King(board, Color.BLUE));
     }
 
     public int getTurn() {
@@ -174,5 +212,9 @@ public class ChessMatch {
 
     public boolean getCheck() {
         return this.check;
+    }
+
+    public boolean getCheckMate() {
+        return this.checkMate;
     }
 }
