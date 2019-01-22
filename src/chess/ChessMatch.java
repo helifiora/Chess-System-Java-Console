@@ -4,6 +4,7 @@ import boardgame.Board;
 import boardgame.Piece;
 import boardgame.Position;
 import chess.pieces.King;
+import chess.pieces.Pawn;
 import chess.pieces.Rook;
 
 import java.util.ArrayList;
@@ -171,27 +172,30 @@ public class ChessMatch {
     }
 
     private void initialSetup() {
-        /*
-        this.planeNewPiece('c', 1, new Rook(this.board, Color.RED));
-        this.planeNewPiece('c', 2, new Rook(this.board, Color.RED));
-        this.planeNewPiece('d', 2, new Rook(this.board, Color.RED));
-        this.planeNewPiece('e', 2, new Rook(this.board, Color.RED));
-        this.planeNewPiece('e', 1, new Rook(this.board, Color.RED));
-        this.planeNewPiece('d', 1, new King(this.board, Color.RED));
+        this.planeNewPiece('a', 1, new Rook(this.board, Color.RED));
+        this.planeNewPiece('e', 1, new King(this.board, Color.RED));
+        this.planeNewPiece('h', 1, new Rook(this.board, Color.RED));
+        this.planeNewPiece('a', 2, new Pawn(this.board, Color.RED));
+        this.planeNewPiece('b', 2, new Pawn(this.board, Color.RED));
+        this.planeNewPiece('c', 2, new Pawn(this.board, Color.RED));
+        this.planeNewPiece('d', 2, new Pawn(this.board, Color.RED));
+        this.planeNewPiece('e', 2, new Pawn(this.board, Color.RED));
+        this.planeNewPiece('f', 2, new Pawn(this.board, Color.RED));
+        this.planeNewPiece('g', 2, new Pawn(this.board, Color.RED));
+        this.planeNewPiece('h', 2, new Pawn(this.board, Color.RED));
 
-        this.planeNewPiece('c', 7, new Rook(this.board, Color.BLUE));
-        this.planeNewPiece('c', 8, new Rook(this.board, Color.BLUE));
-        this.planeNewPiece('d', 7, new Rook(this.board, Color.BLUE));
-        this.planeNewPiece('e', 7, new Rook(this.board, Color.BLUE));
-        this.planeNewPiece('e', 8, new Rook(this.board, Color.BLUE));
-        this.planeNewPiece('d', 8, new King(this.board, Color.BLUE));
-        */
-        planeNewPiece('h', 7, new Rook(board, Color.RED));
-        planeNewPiece('d', 1, new Rook(board, Color.RED));
-        planeNewPiece('e', 1, new King(board, Color.RED));
+        this.planeNewPiece('a', 8, new Rook(this.board, Color.BLUE));
+        this.planeNewPiece('e', 8, new King(this.board, Color.BLUE));
+        this.planeNewPiece('h', 8, new Rook(this.board, Color.BLUE));
+        this.planeNewPiece('a', 7, new Pawn(this.board, Color.BLUE));
+        this.planeNewPiece('b', 7, new Pawn(this.board, Color.BLUE));
+        this.planeNewPiece('c', 7, new Pawn(this.board, Color.BLUE));
+        this.planeNewPiece('d', 7, new Pawn(this.board, Color.BLUE));
+        this.planeNewPiece('e', 7, new Pawn(this.board, Color.BLUE));
+        this.planeNewPiece('f', 7, new Pawn(this.board, Color.BLUE));
+        this.planeNewPiece('g', 7, new Pawn(this.board, Color.BLUE));
+        this.planeNewPiece('h', 7, new Pawn(this.board, Color.BLUE));
 
-        planeNewPiece('b', 8, new Rook(board, Color.BLUE));
-        planeNewPiece('a', 8, new King(board, Color.BLUE));
     }
 
     public int getTurn() {
