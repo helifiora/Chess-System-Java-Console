@@ -173,6 +173,7 @@ public class ChessMatch {
         this.planeNewPiece('a', 1, new Rook(this.board, Color.RED));
         this.planeNewPiece('b', 1, new Knight(this.board, Color.RED));
         this.planeNewPiece('c', 1, new Bishop(this.board, Color.RED));
+        this.planeNewPiece('d', 1, new Queen(this.board, Color.RED));
         this.planeNewPiece('e', 1, new King(this.board, Color.RED));
         this.planeNewPiece('f', 1, new Bishop(this.board, Color.RED));
         this.planeNewPiece('g', 1, new Knight(this.board, Color.RED));
@@ -189,6 +190,7 @@ public class ChessMatch {
         this.planeNewPiece('a', 8, new Rook(this.board, Color.BLUE));
         this.planeNewPiece('b', 8, new Knight(this.board, Color.BLUE));
         this.planeNewPiece('c', 8, new Bishop(this.board, Color.BLUE));
+        this.planeNewPiece('d', 8, new Queen(this.board, Color.BLUE));
         this.planeNewPiece('e', 8, new King(this.board, Color.BLUE));
         this.planeNewPiece('f', 8, new Bishop(this.board, Color.BLUE));
         this.planeNewPiece('g', 8, new Knight(this.board, Color.BLUE));
